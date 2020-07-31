@@ -1,11 +1,13 @@
 package com.gondev.giphyfavorites.ui.main
 
 import android.os.Bundle
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.gondev.giphyfavorites.R
+import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

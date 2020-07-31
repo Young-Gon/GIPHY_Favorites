@@ -1,2 +1,3 @@
+include ':recyclerviewadapter'
 include ':app'
 rootProject.name = "GIPHY Favorites"
