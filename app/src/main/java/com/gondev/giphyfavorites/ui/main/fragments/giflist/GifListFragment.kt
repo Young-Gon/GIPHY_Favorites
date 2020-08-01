@@ -25,7 +25,7 @@ class GifListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=GifListFragmentBinding.inflate(inflater,container,false)
+        binding = GifListFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -33,21 +33,21 @@ class GifListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        binding.vm=viewModel
+        binding.vm = viewModel
 
-        binding.recyclerView.adapter=
+        binding.recyclerView.adapter =
             RecyclerViewListAdapter<GifData, GifDataItemBinding>(
-                R.layout.item_gif,
-                BR.gifData,
-                object : DiffUtil.ItemCallback<GifData>() {
+                layoutResId = R.layout.item_gif,
+                bindingVariableId = BR.gifData,
+                diffCallback = object : DiffUtil.ItemCallback<GifData>() {
                     override fun areItemsTheSame(oldItem: GifData, newItem: GifData) =
                         oldItem.id == newItem.id
 
                     override fun areContentsTheSame(oldItem: GifData, newItem: GifData) =
                         oldItem == newItem
                 },
-                viewLifecycleOwner,
-                BR.vm to binding.vm!!
+                lifecycleOwner = viewLifecycleOwner,
+                param = *arrayOf(BR.vm to binding.vm!!)
             )
     }
 
@@ -56,8 +56,9 @@ class GifListFragment : Fragment() {
          * The fragment argument representing the section number for this
          * fragment.
          */
-        private const val ARG_SECTION_NUMBER = "section_number"
-
+        const val ARG_SECTION_NUMBER = "section_number"
+        const val SECTION_TRENDING = 0
+        const val SECTION_FAVORITES = 1
         /**
          * Returns a new instance of this fragment for the given section
          * number.
