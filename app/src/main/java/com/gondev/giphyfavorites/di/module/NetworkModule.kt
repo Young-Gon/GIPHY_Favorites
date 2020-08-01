@@ -3,6 +3,7 @@ package com.gondev.giphyfavorites.di.module
 import android.app.Application
 import com.gondev.giphyfavorites.BuildConfig
 import com.gondev.giphyfavorites.model.network.api.GipyAPI
+import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,7 +47,11 @@ object NetworkModule{
                         .build())
                 }.build())
             }
-            addInterceptor(HttpLoggingInterceptor().apply {
+            addInterceptor(HttpLoggingInterceptor(object :HttpLoggingInterceptor.Logger{
+                override fun log(message: String) {
+                    Logger.t("PRETTY_LOGGER-OKHTTP").i(message)
+                }
+            }).apply {
                 if (BuildConfig.DEBUG) {
                     level = HttpLoggingInterceptor.Level.BODY
                 }

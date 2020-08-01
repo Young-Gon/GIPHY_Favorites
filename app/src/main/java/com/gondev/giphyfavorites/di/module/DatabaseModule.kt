@@ -25,5 +25,5 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideFavoriteDao(appDatabase: AppDatabase) =
-        appDatabase.getFavoriteDao()
+        appDatabase.getGifDataDao()
 }

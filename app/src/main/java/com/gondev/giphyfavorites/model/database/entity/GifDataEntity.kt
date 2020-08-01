@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Favorite (
+data class GifDataEntity (
     @PrimaryKey
-    val id: Long
+    val id: String
 )
