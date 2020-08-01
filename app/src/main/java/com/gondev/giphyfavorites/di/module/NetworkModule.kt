@@ -3,6 +3,7 @@ package com.gondev.giphyfavorites.di.module
 import android.app.Application
 import com.gondev.giphyfavorites.BuildConfig
 import com.gondev.giphyfavorites.model.network.api.GipyAPI
+import com.google.gson.GsonBuilder
 import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides
@@ -28,7 +29,11 @@ object NetworkModule{
     fun provideTrandingAPIService(application: Application) =
         Retrofit.Builder()
         .baseUrl("https://api.giphy.com/v1/gifs/")
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(
+            GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create()
+        ))
         .client(okhttpClient())
         .build()
         .create(GipyAPI::class.java)
