@@ -1,31 +1,27 @@
 package com.gondev.giphyfavorites.ui.main
 
 import android.content.Context
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.gondev.giphyfavorites.R
-import com.gondev.giphyfavorites.ui.main.fragments.giflist.GifListFragment
+import com.gondev.giphyfavorites.ui.main.fragments.favorites.FavoriteFragment
+import com.gondev.giphyfavorites.ui.main.fragments.trending.TrendingFragment
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
-    : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    override fun getItem(position: Int): Fragment {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return GifListFragment.newInstance(position)
+const val SECTION_TRENDING = 0
+const val SECTION_FAVORITES = 1
+
+class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+
+    override fun getItem(position: Int) = when (position) {
+        SECTION_TRENDING -> TrendingFragment()
+        SECTION_FAVORITES -> FavoriteFragment()
+        else -> throw IllegalArgumentException("지원하지 않는 페이지 입니다")
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getStringArray(R.array.tab_title)[position]
-    }
+    override fun getPageTitle(position: Int) =
+        context.resources.getStringArray(R.array.tab_title)[position]
 
-    override fun getCount(): Int {
-        // Show 2 total pages.
-        return 2
-    }
+    override fun getCount() = 2
 }

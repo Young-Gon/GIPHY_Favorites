@@ -2,7 +2,7 @@ package com.gondev.giphyfavorites.di.module
 
 import android.app.Application
 import com.gondev.giphyfavorites.BuildConfig
-import com.gondev.giphyfavorites.model.network.api.GipyAPI
+import com.gondev.giphyfavorites.model.network.api.GiphyAPI
 import com.google.gson.GsonBuilder
 import com.orhanobut.logger.Logger
 import dagger.Module
@@ -36,7 +36,7 @@ object NetworkModule{
         ))
         .client(okhttpClient())
         .build()
-        .create(GipyAPI::class.java)
+        .create(GiphyAPI::class.java)
 
     private fun okhttpClient()=
         OkHttpClient.Builder().apply {
@@ -46,7 +46,7 @@ object NetworkModule{
             retryOnConnectionFailure(true)
             addInterceptor{ chain ->
                 chain.proceed(chain.request().newBuilder().apply {
-                    url(chain.request().url
+                    url(chain.request().url()
                         .newBuilder()
                         .addQueryParameter("api_key", BuildConfig.apikey)
                         .build())

@@ -95,11 +95,15 @@ dependencies {
     // Rest API 메소드를 제공할 뿐만 아니라
     // Gson과 연계해서 파싱지원을 하는 등 강력하고 유연한
     // API 콜을 제공합니다
-    // 참고: 최신버전 2.9.0부터 Android API 21을 요구함으로
+    // 참고: 최신버전 2.9.0부터 Android API 21을 요구하므로
     // 2.8.1을 사용 하였습니다
     implementation 'com.squareup.retrofit2:retrofit:2.8.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.6.0'
+    //OkHttp
+    implementation ("com.squareup.okhttp3:okhttp:3.12.12"){
+        force = true //API 19 support
+    }
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.12'
 
     // room
     // https://developer.android.com/topic/libraries/architecture/room

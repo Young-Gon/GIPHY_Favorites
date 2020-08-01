@@ -9,6 +9,7 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class GiphyApplication:Application() {
+
     override fun onCreate() {
         super.onCreate()
         Logger.addLogAdapter(object :AndroidLogAdapter(

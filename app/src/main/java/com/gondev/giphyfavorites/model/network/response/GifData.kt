@@ -3,6 +3,18 @@ package com.gondev.giphyfavorites.model.network.response
 import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
 import java.util.*
 
+
+data class Result(
+    val data: List<GifData>,
+    val pagination: Pagination
+)
+
+data class Pagination (
+    val total_count:Int,
+    val count: Int,
+    val offset:Int
+)
+
 data class GifData (
     val id: String,
     val title: String,

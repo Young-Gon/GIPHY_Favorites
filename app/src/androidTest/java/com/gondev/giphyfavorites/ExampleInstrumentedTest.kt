@@ -2,7 +2,7 @@ package com.gondev.giphyfavorites
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.gondev.giphyfavorites.model.network.api.GipyAPI
+import com.gondev.giphyfavorites.model.network.api.GiphyAPI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
 class ExampleInstrumentedTest {
 
 
-    private val gipyAPI=getService("https://api.giphy.com/v1/gifs/", GipyAPI::class.java, Interceptor { chain ->
+    private val gipyAPI=getService("https://api.giphy.com/v1/gifs/", GiphyAPI::class.java, Interceptor { chain ->
         chain.proceed(chain.request().newBuilder().build())
     })
 
@@ -37,7 +37,7 @@ class ExampleInstrumentedTest {
         assertEquals("com.gondev.giphyfavorites", appContext.packageName)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val result = gipyAPI.getMovieList()
+            val result = gipyAPI.getGifList()
             assertEquals(20, result.size)
         }
     }

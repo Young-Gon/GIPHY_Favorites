@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.fragments.trending.TrendingFragment">
+
+    <data class="FavoriteFragmentBinding">
+
+        <import type="com.gondev.giphyfavorites.model.network.State" />
+
+        <variable
+            name="vm"
+            type="com.gondev.giphyfavorites.ui.main.fragments.favorites.FavoriteViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="2dp"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:items="@{vm.gifList.data}"
+            app:spanCount="2"
+            app:itemMargin="@{3}"
+            tools:listitem="@layout/item_gif" />
+
+        <include
+            layout="@layout/include_state_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:result="@{(State)vm.gifList}" />
+    </FrameLayout>
+</layout>

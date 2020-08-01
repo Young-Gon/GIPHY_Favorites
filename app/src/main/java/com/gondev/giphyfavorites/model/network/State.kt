@@ -3,14 +3,14 @@ package com.gondev.giphyfavorites.model.network
 import java.io.PrintWriter
 import java.io.StringWriter
 
-sealed class Result<out T>(
+sealed class State<out T>(
 	val data: T?
 ) {
-	class Loading<T>(data: T?) : Result<T>(data)
+	class Loading<T>(data: T?) : State<T>(data)
 
-	class Success<T>(data: T?) : Result<T>(data)
+	class Success<T>(data: T?) : State<T>(data)
 
-	class Error<T>(val throwable: Throwable, data: T?) : Result<T>(data){
+	class Error<T>(val throwable: Throwable, data: T?) : State<T>(data){
 		fun getStackTrace(): String {
 			val stringWriter = StringWriter()
 			throwable.printStackTrace(PrintWriter(stringWriter))

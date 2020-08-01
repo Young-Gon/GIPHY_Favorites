@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.main.fragments.giflist.GifListFragment">
-    <data class="GifListFragmentBinding">
-        <import type="com.gondev.giphyfavorites.model.network.Result"/>
+    tools:context=".ui.main.fragments.trending.TrendingFragment">
+    <data class="TrendingFragmentBinding">
+        <import type="com.gondev.giphyfavorites.model.network.State"/>
         <variable
             name="vm"
-            type="com.gondev.giphyfavorites.ui.main.fragments.giflist.GifListViewModel" />
+            type="com.gondev.giphyfavorites.ui.main.fragments.trending.TrendingViewModel" />
     </data>
     <FrameLayout
         android:layout_width="match_parent"
@@ -23,12 +23,20 @@
                 android:layout_height="match_parent"
                 android:paddingTop="2dp"
                 android:clipToPadding="false"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                app:onPageScrollStateChanged="@{(newState) -> vm.onReachedBottom(newState)}"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="2"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:items="@{vm.gifList.data}"
+                app:spanCount="2"
+                app:itemMargin="@{3}"
                 tools:listitem="@layout/item_gif"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <include
+            layout="@layout/include_state_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:result="@{(State)vm.gifList}" />
     </FrameLayout>
 </layout>

@@ -2,14 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/fragment_gif_list">
+    tools:showIn="@layout/fragment_trending">
     <data class="GifDataItemBinding">
         <variable
             name="gifData"
-            type="com.gondev.giphyfavorites.model.network.response.GifData" />
+            type="com.gondev.giphyfavorites.model.database.entity.GifDataEntity" />
         <variable
             name="vm"
-            type="com.gondev.giphyfavorites.ui.main.fragments.giflist.GifListViewModel" />
+            type="com.gondev.giphyfavorites.ui.main.fragments.trending.TrendingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,13 +18,14 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="#e0995e"
             android:minHeight="140dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:srcCompat="@drawable/empty_image" />
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -46,6 +47,7 @@
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:text="@{gifData.title}"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/ibFavorite"
             app:layout_constraintStart_toStartOf="@+id/imageView"
