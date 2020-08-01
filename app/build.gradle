@@ -124,4 +124,18 @@ dependencies {
 
     // 재사용가능한 리사이클러 뷰 아답타입니다
     implementation project(':recyclerviewadapter')
+
+    // glide
+    // https://bumptech.github.io/glide/
+    // 이미지로드 라이브러리
+    def GLIDE_VERSION = "4.11.0"
+    implementation "com.github.bumptech.glide:glide:${GLIDE_VERSION}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${GLIDE_VERSION}"
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.11.0"
+
+    // webpdecoder
+    // https://github.com/zjupure/GlideWebpDecoder
+    // glide가 webp를 재생할 수 있도록 하는 GlideWebpDecoder입니다
+    // 참고: NDK 리소스가 필요 합니다
+    implementation "com.zlc.glide:webpdecoder:2.0.${GLIDE_VERSION}"
 }

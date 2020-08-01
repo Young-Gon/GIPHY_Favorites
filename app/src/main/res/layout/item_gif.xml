@@ -20,12 +20,16 @@
             android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#e0995e"
+            android:background="#F2F2F2"
             android:minHeight="140dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/empty_image" />
+            app:srcCompat="@drawable/empty_image"
+            app:src="@{gifData.fixedWidthDownsampled}"
+            app:src_size="@{gifData.fixedWidthDownsampledSize}"
+            app:thumbnail="@{gifData.thumbnail}"
+            app:thumbnail_size="@{gifData.thumbnailSize}"/>
 
         <FrameLayout
             android:id="@+id/frameLayout"

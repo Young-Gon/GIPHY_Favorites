@@ -38,7 +38,6 @@ class ExampleInstrumentedTest {
 
         CoroutineScope(Dispatchers.IO).launch {
             val result = gipyAPI.getGifList()
-            assertEquals(20, result.size)
         }
     }
 

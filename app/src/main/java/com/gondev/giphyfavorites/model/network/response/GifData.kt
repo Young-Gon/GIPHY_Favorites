@@ -25,24 +25,28 @@ data class GifData (
         GifDataEntity(
             id=id,
             title = title,
-            trending_datetime = trending_datetime,
-            previewWebp = images.preview_webp.url,
+            trendingDatetime = trending_datetime,
+            thumbnail = images.fixed_width_small_still.url,
+            thumbnailSize = images.fixed_width_small_still.size,
             fixedWidthDownsampled = images.fixed_width_downsampled.webp,
-            originalImage = images.original.webp
+            fixedWidthDownsampledSize = images.fixed_width_downsampled.webp_size,
+            originalImage = images.original.webp,
+            originalImageSize = images.original.webp_size
         )
 }
 
 data class Images(
-    val preview_webp: PreviewWebp,
+    val fixed_width_small_still: FixedWidthSmallStill,
     val fixed_width_downsampled: FixedWidthDownsampled,
     val original: FixedWidthDownsampled
 )
 
-data class PreviewWebp(
-    val url: String
+data class FixedWidthSmallStill(
+    val url: String,
+    val size: Int
 )
 
 data class FixedWidthDownsampled(
-    val url: String,
-    val webp: String
+    val webp: String,
+    val webp_size: Int
 )
