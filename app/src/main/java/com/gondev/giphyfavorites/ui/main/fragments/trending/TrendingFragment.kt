@@ -12,7 +12,7 @@ import com.gondev.giphyfavorites.R
 import com.gondev.giphyfavorites.databinding.GifDataItemBinding
 import com.gondev.giphyfavorites.databinding.TrendingFragmentBinding
 import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
-import com.gondev.recyclerviewadapter.RecyclerViewListAdapter
+import com.gondev.giphyfavorites.ui.main.fragments.GiphyAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -37,7 +37,7 @@ class TrendingFragment : Fragment() {
         binding.lifecycleOwner=viewLifecycleOwner
 
         binding.recyclerView.adapter =
-            RecyclerViewListAdapter<GifDataEntity, GifDataItemBinding>(
+            GiphyAdapter<GifDataEntity, GifDataItemBinding>(
                 layoutResId = R.layout.item_gif,
                 bindingVariableId = BR.gifData,
                 diffCallback = object : DiffUtil.ItemCallback<GifDataEntity>() {

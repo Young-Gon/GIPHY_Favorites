@@ -10,6 +10,9 @@
 				name="result"
 				type="com.gondev.giphyfavorites.model.network.State" />
 		<variable
+			name="data"
+			type="java.util.List" />
+		<variable
 				name="loadingMessage"
 				type="String" />
 		<variable
@@ -22,7 +25,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			app:visibleGone="@{result.data == null || (result.data instanceof List) ? ((List)result.data).size()==0 : false}">
+			app:visibleGone="@{data == null ||  data.size()==0 }">
 		<!--loading-->
 		<androidx.constraintlayout.widget.ConstraintLayout
 				android:layout_width="match_parent"

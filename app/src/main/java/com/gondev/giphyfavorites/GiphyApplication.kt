@@ -1,10 +1,10 @@
 package com.gondev.giphyfavorites
 
 import android.app.Application
-import com.orhanobut.logger.AndroidLogAdapter
-import com.orhanobut.logger.Logger
-import com.orhanobut.logger.PrettyFormatStrategy
+import com.gondev.movie.util.timber.DebugLogTree
+import com.gondev.movie.util.timber.ReleaseLogTree
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 
 @HiltAndroidApp
@@ -12,15 +12,11 @@ class GiphyApplication:Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Logger.addLogAdapter(object :AndroidLogAdapter(
-            PrettyFormatStrategy.newBuilder().apply {
-                showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
-                methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
-            }.build()
-        ){
-            override fun isLoggable(priority: Int, tag: String?): Boolean {
-                return BuildConfig.DEBUG
-            }
-        })
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugLogTree())
+        }
+        else{
+            Timber.plant(ReleaseLogTree())
+        }
     }
 }

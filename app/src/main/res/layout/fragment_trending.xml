@@ -7,6 +7,7 @@
     <data class="TrendingFragmentBinding">
 
         <import type="com.gondev.giphyfavorites.model.network.State" />
+        <import type="java.util.List"/>
 
         <variable
             name="vm"
@@ -31,10 +32,9 @@
                 android:orientation="vertical"
                 android:paddingTop="2dp"
                 app:itemMargin="@{4f}"
-                app:items="@{vm.gifList.data}"
+                app:items="@{vm.gifList}"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:onPageScrollStateChanged="@{(newState) -> vm.onReachedBottom(newState)}"
                 app:spanCount="2"
                 tools:listitem="@layout/item_gif" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -43,6 +43,7 @@
             layout="@layout/include_state_network"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:result="@{(State)vm.gifList}" />
+            app:result="@{(State)vm.state}"
+            app:data="@{(List)vm.gifList}"/>
     </FrameLayout>
 </layout>

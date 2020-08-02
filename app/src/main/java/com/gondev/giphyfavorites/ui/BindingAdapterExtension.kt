@@ -1,11 +1,15 @@
 package com.gondev.giphyfavorites.ui
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.DimenRes
 import androidx.databinding.BindingAdapter
-import androidx.databinding.adapters.ListenerUtil
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.webp.decoder.WebpDrawable
@@ -21,33 +25,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.request.transition.TransitionFactory
 import com.bumptech.glide.signature.ObjectKey
 import com.gondev.giphyfavorites.R
+import com.gondev.giphyfavorites.ui.main.fragments.GiphyAdapter
 
-
-@BindingAdapter("onPageScrollStateChanged")
-fun RecyclerView.setOnPageScrolledListener(onPageScrollStateChangedListener: OnPageScrolledListener) {
-    val onPageChangeListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-            if (!recyclerView.canScrollVertically(1)) {
-                onPageScrollStateChangedListener.onPageScrolled(newState)
-            }
-        }
-    }
-
-    ListenerUtil.trackListener<RecyclerView.OnScrollListener>(
-        this,
-        onPageChangeListener, R.id.onListReachedBottomListener
-    )?.let {
-        clearOnScrollListeners()
-    }
-
-    addOnScrollListener(onPageChangeListener)
-
-}
-
-interface OnPageScrolledListener {
-    fun onPageScrolled(newState: Int)
-}
 
 @BindingAdapter("visibleGone")
 fun View.showHide(show: Boolean) {
@@ -95,4 +74,84 @@ class DrawableAlwaysCrossFadeFactory : TransitionFactory<Drawable> {
     override fun build(dataSource: DataSource?, isFirstResource: Boolean): Transition<Drawable> {
         return resourceTransition
     }
+}
+
+@BindingAdapter("items")
+fun <T> RecyclerView.setItems(items: PagedList<T>?) {
+    if (layoutManager == null)
+        throw NullPointerException("layoutManager가 없습니다")
+
+    (this.adapter as? GiphyAdapter<T, *>)?.run {
+        submitList(items)
+    }
+}
+
+@BindingAdapter("itemMargin")
+fun RecyclerView.setItemMargin(@DimenRes margin: Int) {
+    addItemDecoration(
+        MarginItemDecoration(
+            resources.getDimension(margin).toInt(),
+            RecyclerView.HORIZONTAL
+        )
+    )
+    addItemDecoration(
+        MarginItemDecoration(
+            resources.getDimension(margin).toInt(),
+            RecyclerView.VERTICAL
+        )
+    )
+}
+
+@BindingAdapter("itemMargin")
+fun RecyclerView.setItemMargin(margin: Float) {
+    addItemDecoration(
+        MarginItemDecoration(
+            context.dpToPx(margin),
+            RecyclerView.HORIZONTAL
+        )
+    )
+    addItemDecoration(
+        MarginItemDecoration(
+            context.dpToPx(margin),
+            RecyclerView.VERTICAL
+        )
+    )
+}
+
+
+fun Context.dpToPx(dp: Float) = resources.displayMetrics.let {
+    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, it).toInt()
+}
+
+@BindingAdapter("hasFixedSize")
+fun RecyclerView.hasFixedSize(fix: Boolean) {
+    setHasFixedSize(fix)
+}
+
+@BindingAdapter("selected")
+fun View.select(selected: Boolean) {
+    isSelected = selected
+}
+
+class MarginItemDecoration(
+    private val space: Int,
+
+    @RecyclerView.Orientation
+    private val orientation: Int
+) : RecyclerView.ItemDecoration() {
+
+    override fun getItemOffsets(outRect: Rect, view: View,
+                                parent: RecyclerView, state: RecyclerView.State) =
+        with(outRect) {
+            if (parent.getChildAdapterPosition(view) == 0) {
+                if(orientation== RecyclerView.HORIZONTAL)
+                    left = space
+                else
+                    top = space
+            }
+            if(orientation== RecyclerView.HORIZONTAL)
+                right = space
+            else
+                bottom = space
+        }
 }

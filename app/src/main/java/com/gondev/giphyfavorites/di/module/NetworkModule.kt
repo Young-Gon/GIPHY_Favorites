@@ -4,15 +4,16 @@ import android.app.Application
 import com.gondev.giphyfavorites.BuildConfig
 import com.gondev.giphyfavorites.model.network.api.GiphyAPI
 import com.google.gson.GsonBuilder
-import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -34,12 +35,13 @@ object NetworkModule{
                 .setDateFormat("yyyy-MM-dd HH:mm:ss")
                 .create()
         ))
-        .client(okhttpClient())
+        .client(okhttpClient(application))
         .build()
         .create(GiphyAPI::class.java)
 
-    private fun okhttpClient()=
+    private fun okhttpClient(application: Application)=
         OkHttpClient.Builder().apply {
+            cache(Cache(application.cacheDir, 10 * 1024 * 1024))
             connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
             readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
@@ -54,7 +56,7 @@ object NetworkModule{
             }
             addInterceptor(HttpLoggingInterceptor(object :HttpLoggingInterceptor.Logger{
                 override fun log(message: String) {
-                    Logger.t("PRETTY_LOGGER-OKHTTP").i(message)
+                    Timber.tag("OKHTTP").i(message)
                 }
             }).apply {
                 if (BuildConfig.DEBUG) {
