@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 class GiphyAdapter<T, V : ViewDataBinding>(
     @LayoutRes private val layoutResId: Int,
-    protected val bindingVariableId: Int? = null,
+    private val bindingVariableId: Int? = null,
     diffCallback: DiffUtil.ItemCallback<T>,
-    protected val lifecycleOwner: LifecycleOwner? = null,
-    protected vararg val param: Pair<Int, Any>
+    private val lifecycleOwner: LifecycleOwner? = null,
+    private vararg val param: Pair<Int, Any>
 ) : PagedListAdapter<T, RecyclerViewHolder<T, V>>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

@@ -40,28 +40,32 @@ class TrendingViewModel @ViewModelInject constructor(
                 Timber.d("load form onItemAtEndLoaded")
                 loadDataFromNetwork(offset = pagination.offset + pagination.count)
             }
-
-            fun loadDataFromNetwork(limit: Int = 40, offset: Int = 0) {
-                Timber.d("offset=${offset}")
-                viewModelScope.launch {
-                    try {
-                        val netResult = giphyAPI.getGifList(limit = limit, offset = offset)
-
-                        dao.insert(netResult.data.map { it.toEntity() })
-                        state.value = State.success()
-                        pagination = netResult.pagination
-                        Timber.d(pagination.toString())
-                    } catch (e: Exception) {
-                        Timber.e(e)
-                        state.value = State.error(e)
-
-                    }
-                }
-            }
         })
         .build()
 
-    fun onRefreshList() {
+    fun loadDataFromNetwork(limit: Int = 40, offset: Int = 0, option: (() -> Unit)? = null) {
+        Timber.d("offset=${offset}")
+        viewModelScope.launch {
+            try {
+                val netResult = giphyAPI.getGifList(limit = limit, offset = offset)
 
+                dao.insert(netResult.data.map { it.toEntity() })
+                state.value = State.success()
+                pagination = netResult.pagination
+                option?.invoke()
+                Timber.d(pagination.toString())
+            } catch (e: Exception) {
+                Timber.e(e)
+                state.value = State.error(e)
+            }
+        }
+    }
+
+    val refresh=MutableLiveData<Boolean>(false)
+
+    fun onRefreshList() {
+        loadDataFromNetwork{
+            refresh.postValue(false)
+        }
     }
 }

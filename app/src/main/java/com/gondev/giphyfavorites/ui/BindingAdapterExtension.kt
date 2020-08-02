@@ -9,8 +9,11 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DimenRes
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.webp.decoder.WebpDrawable
 import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
@@ -27,6 +30,29 @@ import com.bumptech.glide.signature.ObjectKey
 import com.gondev.giphyfavorites.R
 import com.gondev.giphyfavorites.ui.main.fragments.GiphyAdapter
 
+
+@BindingAdapter("refresh")
+fun SwipeRefreshLayout.setRefresh(refresh: Boolean){
+    if(isRefreshing!=refresh)
+        isRefreshing=refresh
+}
+
+@InverseBindingAdapter(attribute = "refresh", event = "onRefresh")
+fun SwipeRefreshLayout.getRefresh():Boolean{
+    return isRefreshing
+}
+
+@BindingAdapter("onRefresh")
+fun SwipeRefreshLayout.setOnRefreshPageListener(listener: InverseBindingListener) {
+    setOnRefreshListener{
+        listener.onChange()
+    }
+}
+
+@BindingAdapter("onRefresh")
+fun SwipeRefreshLayout.setOnRefreshPageListener(listener: SwipeRefreshLayout.OnRefreshListener) {
+    setOnRefreshListener(listener)
+}
 
 @BindingAdapter("visibleGone")
 fun View.showHide(show: Boolean) {
