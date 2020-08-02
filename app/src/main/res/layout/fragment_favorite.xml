@@ -28,7 +28,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:items="@{vm.gifList.data}"
             app:spanCount="2"
-            app:itemMargin="@{3}"
+            app:itemMargin="@{3f}"
             tools:listitem="@layout/item_gif" />
 
         <include

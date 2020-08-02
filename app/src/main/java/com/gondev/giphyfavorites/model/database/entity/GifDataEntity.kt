@@ -10,11 +10,11 @@ data class GifDataEntity(
     val id: String,
     val title: String,
     val trendingDatetime: Date,
-    val thumbnail: String,
+    val thumbnail: String?,
     val thumbnailSize: Int,
-    val fixedWidthDownsampled: String,
+    val fixedWidthDownsampled: String?,
     val fixedWidthDownsampledSize: Int,
-    val originalImage: String,
+    val originalImage: String?,
     val originalImageSize: Int,
     val favorite: Boolean = false
 )

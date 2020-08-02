@@ -34,7 +34,7 @@ class TrendingViewModel @ViewModelInject constructor(
             emitSource(newResult.map {
                 State.success(it)
             })
-            pagination.value=netResult.pagination
+            pagination.value = netResult.pagination
         } catch (e: Exception) {
             Logger.e(e, "")
 

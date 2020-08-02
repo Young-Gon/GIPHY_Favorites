@@ -14,7 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageView"
@@ -22,14 +22,15 @@
             android:layout_height="wrap_content"
             android:background="#F2F2F2"
             android:minHeight="140dp"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/empty_image"
             app:src="@{gifData.fixedWidthDownsampled}"
+            app:srcCompat="@drawable/empty_image"
             app:src_size="@{gifData.fixedWidthDownsampledSize}"
             app:thumbnail="@{gifData.thumbnail}"
-            app:thumbnail_size="@{gifData.thumbnailSize}"/>
+            app:thumbnail_size="@{gifData.thumbnailSize}" />
 
         <FrameLayout
             android:id="@+id/frameLayout"
