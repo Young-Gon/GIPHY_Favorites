@@ -6,12 +6,11 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 
 @BindingAdapter("items")
 fun <T> RecyclerView.setItems(items: List<T>?) {
-    if(layoutManager==null)
+    if (layoutManager == null)
         throw NullPointerException("layoutManager가 없습니다")
 
     (this.adapter as? RecyclerViewListAdapter<T, *>)?.run {
@@ -20,18 +19,40 @@ fun <T> RecyclerView.setItems(items: List<T>?) {
 }
 
 @BindingAdapter("itemMargin")
-fun RecyclerView.setItemMargin(@DimenRes margin: Int) =
-    addItemDecoration(MarginItemDecoration(resources.getDimension(margin).toInt(),
-        (layoutManager as StaggeredGridLayoutManager).orientation))
+fun RecyclerView.setItemMargin(@DimenRes margin: Int) {
+    addItemDecoration(
+        MarginItemDecoration(
+            resources.getDimension(margin).toInt(),
+            RecyclerView.HORIZONTAL
+        )
+    )
+    addItemDecoration(
+        MarginItemDecoration(
+            resources.getDimension(margin).toInt(),
+            RecyclerView.VERTICAL
+        )
+    )
+}
 
 @BindingAdapter("itemMargin")
-fun RecyclerView.setItemMargin(margin: Float) =
-    addItemDecoration(MarginItemDecoration(context.dpToPx(margin),
-        (layoutManager as StaggeredGridLayoutManager).orientation))
+fun RecyclerView.setItemMargin(margin: Float) {
+    addItemDecoration(
+        MarginItemDecoration(
+            context.dpToPx(margin),
+            RecyclerView.HORIZONTAL
+        )
+    )
+    addItemDecoration(
+        MarginItemDecoration(
+            context.dpToPx(margin),
+            RecyclerView.VERTICAL
+        )
+    )
+}
 
 
 fun Context.dpToPx(dp: Float) = resources.displayMetrics.let {
-    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,it).toInt()
+    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, it).toInt()
 }
 
 @BindingAdapter("hasFixedSize")

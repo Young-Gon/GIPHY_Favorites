@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.main.fragments.trending.TrendingFragment">
+
     <data class="TrendingFragmentBinding">
-        <import type="com.gondev.giphyfavorites.model.network.State"/>
+
+        <import type="com.gondev.giphyfavorites.model.network.State" />
+
         <variable
             name="vm"
             type="com.gondev.giphyfavorites.ui.main.fragments.trending.TrendingViewModel" />
     </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,21 +20,23 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="2dp"
                 android:clipToPadding="false"
                 android:orientation="vertical"
-                app:onPageScrollStateChanged="@{(newState) -> vm.onReachedBottom(newState)}"
+                android:paddingTop="2dp"
+                app:itemMargin="@{4f}"
+                app:items="@{vm.gifList.data}"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:items="@{vm.gifList.data}"
+                app:onPageScrollStateChanged="@{(newState) -> vm.onReachedBottom(newState)}"
                 app:spanCount="2"
-                app:itemMargin="@{3f}"
-                tools:listitem="@layout/item_gif"/>
+                tools:listitem="@layout/item_gif" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <include

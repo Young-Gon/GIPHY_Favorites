@@ -15,20 +15,21 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="4dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="2dp"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:paddingTop="2dp"
+            app:itemMargin="@{4f}"
+            app:items="@{vm.gifList.data}"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:items="@{vm.gifList.data}"
             app:spanCount="2"
-            app:itemMargin="@{3f}"
             tools:listitem="@layout/item_gif" />
 
         <include
