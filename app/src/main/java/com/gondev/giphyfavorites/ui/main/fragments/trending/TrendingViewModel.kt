@@ -13,6 +13,7 @@ import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
 import com.gondev.giphyfavorites.model.network.State
 import com.gondev.giphyfavorites.model.network.api.GiphyAPI
 import com.gondev.giphyfavorites.model.network.response.Pagination
+import com.gondev.giphyfavorites.ui.main.fragments.IonClickFavorite
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -21,13 +22,13 @@ class TrendingViewModel @ViewModelInject constructor(
     private val dao: GifDataDao,
     private val giphyAPI: GiphyAPI,
     @Assisted private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : ViewModel(), IonClickFavorite {
 
     private var pagination = Pagination(0, 0, 0)
 
     val state: MutableLiveData<State> = MutableLiveData(State.loading())
 
-    val gifList = LivePagedListBuilder(dao.findGifOrderByTrendingDatetimeDESC(), 20)
+    val gifList = LivePagedListBuilder(dao.findGif(), 20)
         .setBoundaryCallback(object : PagedList.BoundaryCallback<GifDataEntity>() {
             override fun onZeroItemsLoaded() {
                 super.onZeroItemsLoaded()
@@ -37,6 +38,7 @@ class TrendingViewModel @ViewModelInject constructor(
 
             override fun onItemAtEndLoaded(itemAtEnd: GifDataEntity) {
                 super.onItemAtEndLoaded(itemAtEnd)
+
                 Timber.d("load form onItemAtEndLoaded")
                 loadDataFromNetwork(offset = pagination.offset + pagination.count)
             }
@@ -61,11 +63,21 @@ class TrendingViewModel @ViewModelInject constructor(
         }
     }
 
-    val refresh=MutableLiveData<Boolean>(false)
+    val refresh = MutableLiveData<Boolean>(false)
 
     fun onRefreshList() {
-        loadDataFromNetwork{
-            refresh.postValue(false)
+        loadDataFromNetwork {
+            refresh.value = false
+        }
+    }
+
+    override fun onClickFavorite(clickedItem: GifDataEntity) {
+        viewModelScope.launch {
+            // 디비 엔티티를 직접 수정할 경우
+            // 리스트 업데이트가 안되는 문제가 있다
+            // 기존 엔티티를 복제하여 새로운 엔티티로 만들어 업데이트 시키자
+            // https://stackoverflow.com/questions/54493764/pagedlistadapter-does-not-update-list-if-just-the-content-of-an-item-changes
+            dao.update(clickedItem.copy(favorite = !clickedItem.favorite))
         }
     }
 }

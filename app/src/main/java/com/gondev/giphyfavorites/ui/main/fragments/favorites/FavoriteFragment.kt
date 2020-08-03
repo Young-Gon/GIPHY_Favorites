@@ -26,7 +26,7 @@ class FavoriteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FavoriteFragmentBinding.inflate(inflater,container, false)
+        binding = FavoriteFragmentBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -35,7 +35,7 @@ class FavoriteFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.vm = viewModel
-        binding.lifecycleOwner=viewLifecycleOwner
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.recyclerView.adapter =
             GiphyAdapter<GifDataEntity, GifDataItemBinding>(
@@ -45,7 +45,10 @@ class FavoriteFragment : Fragment() {
                     override fun areItemsTheSame(oldItem: GifDataEntity, newItem: GifDataEntity) =
                         oldItem.id == newItem.id
 
-                    override fun areContentsTheSame(oldItem: GifDataEntity, newItem: GifDataEntity) =
+                    override fun areContentsTheSame(
+                        oldItem: GifDataEntity,
+                        newItem: GifDataEntity
+                    ) =
                         oldItem == newItem
                 },
                 lifecycleOwner = viewLifecycleOwner,

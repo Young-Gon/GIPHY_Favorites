@@ -2,12 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.fragments.trending.TrendingFragment">
+    tools:context=".ui.main.fragments.favorites.FavoriteFragment">
 
     <data class="FavoriteFragmentBinding">
-
-        <import type="java.util.List"/>
-        <import type="com.gondev.giphyfavorites.model.network.State" />
 
         <variable
             name="vm"
@@ -31,13 +28,37 @@
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:spanCount="2"
-            tools:listitem="@layout/item_gif" />
-
-        <include
-            layout="@layout/include_state_network"
+            tools:listitem="@layout/item_gif"
+            tools:visibility="gone"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:result="@{(State)vm.state}"
-            app:data="@{(List)vm.gifList}" />
+            app:visibleGone="@{vm.gifList.size()==0}">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="135dp"
+                android:layout_marginTop="145dp"
+                android:layout_marginEnd="152dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_left_arrow" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="4dp"
+                android:text="@string/empty_favorites"
+                android:textAlignment="center"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

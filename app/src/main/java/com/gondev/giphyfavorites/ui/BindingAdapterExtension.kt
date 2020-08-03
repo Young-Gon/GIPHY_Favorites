@@ -30,7 +30,9 @@ import com.bumptech.glide.signature.ObjectKey
 import com.gondev.giphyfavorites.R
 import com.gondev.giphyfavorites.ui.main.fragments.GiphyAdapter
 
-
+// 다음 3개의 BindingAdapter 함수는
+// 양방향 데이터 바인딩을 위해 필요한 하나의 세트이다
+// https://blog.yatopark.net/2017/07/16/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%EC%9D%98-2-way-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B0%94%EC%9D%B8%EB%94%A9/
 @BindingAdapter("refresh")
 fun SwipeRefreshLayout.setRefresh(refresh: Boolean){
     if(isRefreshing!=refresh)
@@ -70,7 +72,8 @@ fun ImageView.bindImage(src: String?, srcSize: Int, thumbnail: String?, thumbnai
 
     var glide=Glide.with(context).load(src)
 
-
+    // 스틸 썸네일이 없는 경우가 있다
+    // 있는 경우만 썸네일을 넣어 주자
     if(thumbnail!=null) {
         glide = glide.thumbnail(
             Glide.with(context).load(thumbnail)
@@ -79,9 +82,12 @@ fun ImageView.bindImage(src: String?, srcSize: Int, thumbnail: String?, thumbnai
         )
     }
 
+    // 움직이는 gif 보다 webp가 효율이 좋다
+    //  이미지가 webp이면 webp로 재생
     if(src.endsWith("webp"))
         glide=glide.optionalTransform(WebpDrawable::class.java, WebpDrawableTransformation(roundedCorners))
 
+    // 아니면 일반 이미지로 재생
     glide.placeholder(R.drawable.empty_image)
         .optionalTransform(roundedCorners)
         .apply(getGlideRequestOption(src, srcSize))
@@ -89,12 +95,21 @@ fun ImageView.bindImage(src: String?, srcSize: Int, thumbnail: String?, thumbnai
         .into(this)
 }
 
+/**
+ * Best strategy to load images using Glide
+ * https://android.jlelse.eu/best-strategy-to-load-images-using-glide-image-loading-library-for-android-e2b6ba9f75b2
+ */
 fun getGlideRequestOption(imageName: String, size: Int) =
     RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .signature(ObjectKey(imageName))
         .override(size)
 
+/**
+ * 이미지 교체시 faid-in이 말을 듣지 않을때
+ * 해당 클래스로 처리
+ * https://stackoverflow.com/questions/53664645/how-to-apply-animation-on-cached-image-in-glide
+ */
 class DrawableAlwaysCrossFadeFactory : TransitionFactory<Drawable> {
     private val resourceTransition: DrawableCrossFadeTransition = DrawableCrossFadeTransition(300, true) //customize to your own needs or apply a builder pattern
     override fun build(dataSource: DataSource?, isFirstResource: Boolean): Transition<Drawable> {
@@ -104,6 +119,9 @@ class DrawableAlwaysCrossFadeFactory : TransitionFactory<Drawable> {
 
 @BindingAdapter("items")
 fun <T> RecyclerView.setItems(items: PagedList<T>?) {
+    // layoutManager를 실수로 넣지 않을 경우
+    // list에 item이 있어도 RecyclerView에는 아이템이 나타나지 않는다
+    // 이런 실수를 방지 하려면 이런 경우 아에 앱을 빨리 죽여 버리는게 낫다
     if (layoutManager == null)
         throw NullPointerException("layoutManager가 없습니다")
 

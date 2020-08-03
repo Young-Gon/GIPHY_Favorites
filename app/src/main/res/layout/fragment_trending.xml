@@ -7,7 +7,8 @@
     <data class="TrendingFragmentBinding">
 
         <import type="com.gondev.giphyfavorites.model.network.State" />
-        <import type="java.util.List"/>
+
+        <import type="java.util.List" />
 
         <variable
             name="vm"
@@ -23,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
-            app:refresh="@={vm.refresh}"
-            app:onRefresh="@{()->vm.onRefreshList()}">
+            app:onRefresh="@{()->vm.onRefreshList()}"
+            app:refresh="@={vm.refresh}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
@@ -45,7 +46,7 @@
             layout="@layout/include_state_network"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:result="@{(State)vm.state}"
-            app:data="@{(List)vm.gifList}"/>
+            app:data="@{(List)vm.gifList}"
+            app:result="@{(State)vm.state}" />
     </FrameLayout>
 </layout>

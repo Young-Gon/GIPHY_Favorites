@@ -14,6 +14,7 @@ import com.gondev.giphyfavorites.databinding.TrendingFragmentBinding
 import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
 import com.gondev.giphyfavorites.ui.main.fragments.GiphyAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -45,7 +46,9 @@ class TrendingFragment : Fragment() {
                         oldItem.id == newItem.id
 
                     override fun areContentsTheSame(oldItem: GifDataEntity, newItem: GifDataEntity) =
-                        oldItem == newItem
+                        (oldItem == newItem).apply {
+                            Timber.d("title=${newItem.title}, favorate=${oldItem.favorite}, ${newItem.favorite} isSame=$this")
+                        }
                 },
                 lifecycleOwner = viewLifecycleOwner,
                 param = *arrayOf(BR.vm to viewModel)

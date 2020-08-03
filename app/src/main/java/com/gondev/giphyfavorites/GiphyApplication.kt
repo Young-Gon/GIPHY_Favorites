@@ -8,14 +8,13 @@ import timber.log.Timber
 
 
 @HiltAndroidApp
-class GiphyApplication:Application() {
+class GiphyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugLogTree())
-        }
-        else{
+        } else {
             Timber.plant(ReleaseLogTree())
         }
     }

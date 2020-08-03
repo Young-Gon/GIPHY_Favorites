@@ -12,7 +12,7 @@
 
         <variable
             name="vm"
-            type="com.gondev.giphyfavorites.ui.main.fragments.trending.TrendingViewModel" />
+            type="com.gondev.giphyfavorites.ui.main.fragments.IonClickFavorite" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,8 +67,10 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:background="@null"
+            android:onClick="@{(v)->vm.onClickFavorite(gifData)}"
+            android:src="@{gifData.favorite? @drawable/ic_favorite : @drawable/ic_favorite_border}"
             app:layout_constraintEnd_toEndOf="@+id/frameLayout"
             app:layout_constraintTop_toTopOf="@+id/frameLayout"
-            app:srcCompat="@drawable/ic_baseline_favorite_24" />
+            tools:src="@drawable/ic_favorite" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
