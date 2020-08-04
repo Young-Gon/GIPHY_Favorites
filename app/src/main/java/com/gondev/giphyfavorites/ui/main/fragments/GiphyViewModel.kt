@@ -9,7 +9,6 @@ import com.gondev.giphyfavorites.model.database.dao.GifDataDao
 import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
 import com.gondev.giphyfavorites.ui.main.Event
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 abstract class GiphyViewModel(
     val dao: GifDataDao
@@ -49,7 +48,6 @@ abstract class GiphyViewModel(
      */
     val requestStartGalleryActivity = MutableLiveData<Event<Int>>()
     fun onClickItem(clickedItem: GifDataEntity?) {
-        Timber.d(clickedItem?.toString())
         requestStartGalleryActivity.value =
             Event(gifList.value?.indexOfFirst {it: GifDataEntity? ->
                 it?.id == clickedItem?.id

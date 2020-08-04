@@ -22,8 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.gallery.GalleryActivity">
-        </activity>
+        <activity
+            android:name=".ui.gallery.GalleryActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.Overlay" />
     </application>
 
 </manifest>

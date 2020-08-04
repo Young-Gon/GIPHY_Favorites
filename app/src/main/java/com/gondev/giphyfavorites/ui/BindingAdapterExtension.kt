@@ -11,6 +11,7 @@ import androidx.annotation.DimenRes
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import androidx.databinding.adapters.ListenerUtil
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -60,6 +61,28 @@ fun SwipeRefreshLayout.setOnRefreshPageListener(listener: SwipeRefreshLayout.OnR
 @BindingAdapter("visibleGone")
 fun View.showHide(show: Boolean) {
     visibility = if (show) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("onPageScrollStateChanged")
+fun ViewPager2.setOnPageScrolledListener(onPageScrollStateChangedListener: OnPageScrolledListener) {
+    val onPageChangeListener= object : ViewPager2.OnPageChangeCallback(){
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            onPageScrollStateChangedListener.onPageSelected(position)
+        }
+    }
+    ListenerUtil.trackListener<ViewPager2.OnPageChangeCallback>(
+        this,
+        onPageChangeListener, R.id.currentItemSelectedListener
+    )?.let {
+        unregisterOnPageChangeCallback(it)
+    }
+
+    registerOnPageChangeCallback(onPageChangeListener)
+}
+
+interface OnPageScrolledListener {
+    fun onPageSelected(position: Int)
 }
 
 @BindingAdapter("src", "src_size", "thumbnail", "thumbnail_size", requireAll = true)

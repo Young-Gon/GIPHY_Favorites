@@ -2,6 +2,9 @@ package com.gondev.giphyfavorites.ui.gallery
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -9,8 +12,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.gondev.giphyfavorites.BR
 import com.gondev.giphyfavorites.R
 import com.gondev.giphyfavorites.databinding.GalleryActivityBinding
@@ -36,6 +37,9 @@ class GalleryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_gallery)
+
+        window.decorView.setBackgroundColor(resources.getColor(android.R.color.black))
+        supportActionBar?.setBackgroundDrawable(ColorDrawable( Color.BLACK))
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
@@ -60,16 +64,31 @@ class GalleryActivity : AppCompatActivity() {
 
         Timber.d("index=${intent.getIntExtra("index", 0)}")
         Handler().postDelayed({
-            binding.viewPager.visibility= View.VISIBLE
+            binding.viewPager.visibility = View.VISIBLE
             binding.viewPager.setCurrentItem(intent.getIntExtra("index", 0), false)
         }, 100)
+
+    }
+
+    fun onClickItem(v: View) {
+        toggleHideyBar()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            window.navigationBarColor = Color.BLACK
+    }
+
+    fun toggleHideyBar() {
+        val uiOptions: Int = window.decorView.systemUiVisibility
+        var newUiOptions = uiOptions
+        val isImmersiveModeEnabled =
+            uiOptions or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY == uiOptions
+
+        newUiOptions = newUiOptions xor View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        newUiOptions = newUiOptions xor View.SYSTEM_UI_FLAG_FULLSCREEN
+        newUiOptions = newUiOptions xor View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        window.decorView.systemUiVisibility = newUiOptions
     }
 }
-
-
-/**
- * [ViewPager2]는 내부적으로 [RecyclerView]를 갖고 있고 대부분의 구현을 이 RecyclerView가 하고 있다
- * ViewPager2가 재공하지 못하는 기능들은 내부 RecyclerView를 받아와서 처리해아 한다
- */
-fun ViewPager2.getInnerRecyclerView() =
-    getChildAt(0) as RecyclerView
