@@ -12,8 +12,10 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.paging.PagedList
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.webp.decoder.WebpDrawable
 import com.bumptech.glide.integration.webp.decoder.WebpDrawableTransformation
@@ -28,25 +30,24 @@ import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.request.transition.TransitionFactory
 import com.bumptech.glide.signature.ObjectKey
 import com.gondev.giphyfavorites.R
-import com.gondev.giphyfavorites.ui.main.fragments.GiphyAdapter
 
 // 다음 3개의 BindingAdapter 함수는
 // 양방향 데이터 바인딩을 위해 필요한 하나의 세트이다
 // https://blog.yatopark.net/2017/07/16/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%EC%9D%98-2-way-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B0%94%EC%9D%B8%EB%94%A9/
 @BindingAdapter("refresh")
-fun SwipeRefreshLayout.setRefresh(refresh: Boolean){
-    if(isRefreshing!=refresh)
-        isRefreshing=refresh
+fun SwipeRefreshLayout.setRefresh(refresh: Boolean) {
+    if (isRefreshing != refresh)
+        isRefreshing = refresh
 }
 
 @InverseBindingAdapter(attribute = "refresh", event = "onRefresh")
-fun SwipeRefreshLayout.getRefresh():Boolean{
+fun SwipeRefreshLayout.getRefresh(): Boolean {
     return isRefreshing
 }
 
 @BindingAdapter("onRefresh")
 fun SwipeRefreshLayout.setOnRefreshPageListener(listener: InverseBindingListener) {
-    setOnRefreshListener{
+    setOnRefreshListener {
         listener.onChange()
     }
 }
@@ -63,18 +64,18 @@ fun View.showHide(show: Boolean) {
 
 @BindingAdapter("src", "src_size", "thumbnail", "thumbnail_size", requireAll = true)
 fun ImageView.bindImage(src: String?, srcSize: Int, thumbnail: String?, thumbnailSize: Int) {
-    if(src==null) {
+    if (src == null) {
         setImageResource(R.drawable.empty_image)
         return
     }
 
     val roundedCorners: Transformation<Bitmap> = RoundedCorners(4)
 
-    var glide=Glide.with(context).load(src)
+    var glide = Glide.with(context).load(src)
 
     // 스틸 썸네일이 없는 경우가 있다
     // 있는 경우만 썸네일을 넣어 주자
-    if(thumbnail!=null) {
+    if (thumbnail != null) {
         glide = glide.thumbnail(
             Glide.with(context).load(thumbnail)
                 .transition(DrawableTransitionOptions.withCrossFade(300))
@@ -84,12 +85,14 @@ fun ImageView.bindImage(src: String?, srcSize: Int, thumbnail: String?, thumbnai
 
     // 움직이는 gif 보다 webp가 효율이 좋다
     //  이미지가 webp이면 webp로 재생
-    if(src.endsWith("webp"))
-        glide=glide.optionalTransform(WebpDrawable::class.java, WebpDrawableTransformation(roundedCorners))
+    if (src.endsWith("webp"))
+        glide = glide.optionalTransform(
+            WebpDrawable::class.java,
+            WebpDrawableTransformation(roundedCorners)
+        )
 
     // 아니면 일반 이미지로 재생
-    glide.placeholder(R.drawable.empty_image)
-        .optionalTransform(roundedCorners)
+    glide.optionalTransform(roundedCorners)
         .apply(getGlideRequestOption(src, srcSize))
         .transition(DrawableTransitionOptions.with(DrawableAlwaysCrossFadeFactory()))
         .into(this)
@@ -125,7 +128,14 @@ fun <T> RecyclerView.setItems(items: PagedList<T>?) {
     if (layoutManager == null)
         throw NullPointerException("layoutManager가 없습니다")
 
-    (this.adapter as? GiphyAdapter<T, *>)?.run {
+    (this.adapter as? PagedListAdapter<T, *>)?.run {
+        submitList(items)
+    }
+}
+
+@BindingAdapter("items")
+fun <T> ViewPager2.setItems(items: PagedList<T>?) {
+    (this.adapter as? PagedListAdapter<T, *>)?.run {
         submitList(items)
     }
 }
@@ -184,16 +194,18 @@ class MarginItemDecoration(
     private val orientation: Int
 ) : RecyclerView.ItemDecoration() {
 
-    override fun getItemOffsets(outRect: Rect, view: View,
-                                parent: RecyclerView, state: RecyclerView.State) =
+    override fun getItemOffsets(
+        outRect: Rect, view: View,
+        parent: RecyclerView, state: RecyclerView.State
+    ) =
         with(outRect) {
             if (parent.getChildAdapterPosition(view) == 0) {
-                if(orientation== RecyclerView.HORIZONTAL)
+                if (orientation == RecyclerView.HORIZONTAL)
                     left = space
                 else
                     top = space
             }
-            if(orientation== RecyclerView.HORIZONTAL)
+            if (orientation == RecyclerView.HORIZONTAL)
                 right = space
             else
                 bottom = space

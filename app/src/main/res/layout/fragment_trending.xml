@@ -24,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
-            app:onRefresh="@{()->vm.onRefreshList()}"
-            app:refresh="@={vm.refresh}">
+            app:refresh="@={vm.refresh}"
+            app:onRefresh="@{()->vm.onRefreshList()}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

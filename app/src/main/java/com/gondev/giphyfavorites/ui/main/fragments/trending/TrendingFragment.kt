@@ -12,7 +12,9 @@ import com.gondev.giphyfavorites.R
 import com.gondev.giphyfavorites.databinding.GifDataItemBinding
 import com.gondev.giphyfavorites.databinding.TrendingFragmentBinding
 import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
-import com.gondev.giphyfavorites.ui.main.fragments.GiphyAdapter
+import com.gondev.giphyfavorites.ui.GiphyAdapter
+import com.gondev.giphyfavorites.ui.gallery.startGalleryActivity
+import com.gondev.giphyfavorites.ui.main.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -53,5 +55,9 @@ class TrendingFragment : Fragment() {
                 lifecycleOwner = viewLifecycleOwner,
                 param = *arrayOf(BR.vm to viewModel)
             )
+
+        viewModel.requestStartGalleryActivity.observe(viewLifecycleOwner, EventObserver { index ->
+            context?.startGalleryActivity(index,false)
+        })
     }
 }

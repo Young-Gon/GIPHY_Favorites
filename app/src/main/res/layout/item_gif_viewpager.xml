@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="GalleryItemBinding">
+
+        <variable
+            name="gifData"
+            type="com.gondev.giphyfavorites.model.database.entity.GifDataEntity" />
+
+        <variable
+            name="vm"
+            type="com.gondev.giphyfavorites.ui.gallery.GalleryViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:src="@{gifData.originalImage}"
+            app:src_size="@{gifData.originalImageSize}"
+            app:thumbnail="@{gifData.originalImageStill}"
+            app:thumbnail_size="@{gifData.originalImageStillSize}"
+            tools:src="@drawable/empty_image" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

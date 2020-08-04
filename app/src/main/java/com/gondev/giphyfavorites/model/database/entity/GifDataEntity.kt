@@ -16,5 +16,7 @@ data class GifDataEntity(
     val fixedWidthDownsampledSize: Int,
     val originalImage: String?,
     val originalImageSize: Int,
+    val originalImageStill: String?,
+    val originalImageStillSize: Int,
     val favorite: Boolean = false
 )

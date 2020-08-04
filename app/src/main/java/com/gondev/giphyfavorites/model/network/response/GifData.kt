@@ -30,15 +30,18 @@ data class GifData(
             thumbnailSize = images.fixed_width_small_still.size,
             fixedWidthDownsampled = images.fixed_width_downsampled.webp?:images.fixed_width_downsampled.url,
             fixedWidthDownsampledSize = if(images.fixed_width_downsampled.webp!=null) images.fixed_width_downsampled.webp_size else images.fixed_width_downsampled.size,
-            originalImage = images.original.webp,
-            originalImageSize = images.original.webp_size
+            originalImage = images.original.webp?:images.original.url,
+            originalImageSize = if(images.original.webp!=null) images.original.webp_size else images.original.size,
+            originalImageStill = images.original_still.url,
+            originalImageStillSize = images.original_still.size
         )
 }
 
 data class Images(
-    val fixed_width_small_still: FixedWidthSmallStill,
     val fixed_width_downsampled: FixedWidthDownsampled,
-    val original: FixedWidthDownsampled
+    val fixed_width_small_still: FixedWidthSmallStill,
+    val original: FixedWidthDownsampled,
+    val original_still: FixedWidthSmallStill
 )
 
 data class FixedWidthSmallStill(
