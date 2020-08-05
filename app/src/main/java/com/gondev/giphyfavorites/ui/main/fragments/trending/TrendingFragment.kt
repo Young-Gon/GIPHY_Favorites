@@ -73,7 +73,7 @@ class TrendingFragment : Fragment() {
 
                 Timber.d("list.size=${list.size}")
                 if(40<=list.size){
-                    viewModel.onDataSourceInitializingFinished()
+                    viewModel.onDataSourceInitializingFinished(list.size)
                     viewModel.gifList.removeObserver(this)
                 }
             }

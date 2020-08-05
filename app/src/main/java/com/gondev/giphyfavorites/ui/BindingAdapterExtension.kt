@@ -2,12 +2,10 @@ package com.gondev.giphyfavorites.ui
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
-import androidx.annotation.DimenRes
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -167,27 +165,6 @@ fun <T> ViewPager2.setItems(items: PagedList<T>?) {
     }
 }
 
-@BindingAdapter("itemMargin")
-fun RecyclerView.setItemMargin(@DimenRes margin: Int) {
-    addItemDecoration(
-        MarginItemDecoration(
-            resources.getDimension(margin).toInt(),
-            RecyclerView.VERTICAL
-        )
-    )
-}
-
-@BindingAdapter("itemMargin")
-fun RecyclerView.setItemMargin(margin: Float) {
-    addItemDecoration(
-        MarginItemDecoration(
-            context.dpToPx(margin),
-            RecyclerView.VERTICAL
-        )
-    )
-}
-
-
 fun Context.dpToPx(dp: Float) = resources.displayMetrics.let {
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, it).toInt()
 }
@@ -200,29 +177,4 @@ fun RecyclerView.hasFixedSize(fix: Boolean) {
 @BindingAdapter("selected")
 fun View.select(selected: Boolean) {
     isSelected = selected
-}
-
-class MarginItemDecoration(
-    private val space: Int,
-
-    @RecyclerView.Orientation
-    private val orientation: Int
-) : RecyclerView.ItemDecoration() {
-
-    override fun getItemOffsets(
-        outRect: Rect, view: View,
-        parent: RecyclerView, state: RecyclerView.State
-    ) =
-        with(outRect) {
-            if (parent.getChildAdapterPosition(view) == 0) {
-                if (orientation == RecyclerView.HORIZONTAL)
-                    left = space
-                else
-                    top = space
-            }
-            if (orientation == RecyclerView.HORIZONTAL)
-                right = space
-            else
-                bottom = space
-        }
 }

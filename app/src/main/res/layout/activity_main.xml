@@ -28,7 +28,7 @@
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="46dp"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/giphy_title"
                     android:adjustViewBounds="true"
@@ -63,5 +63,6 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

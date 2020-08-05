@@ -70,14 +70,13 @@ class TrendingViewModel @ViewModelInject constructor(
         val offset = pagination.offset
         loadDataFromNetwork {
             refresh.value = false
-            pagination.offset = offset
+            pagination.offset=offset
         }
     }
 
-    fun onDataSourceInitializingFinished() {
-        val offset = pagination.offset
+    fun onDataSourceInitializingFinished(size: Int) {
         loadDataFromNetwork {
-            pagination.offset = offset
+            pagination.offset=size
         }
     }
 }
