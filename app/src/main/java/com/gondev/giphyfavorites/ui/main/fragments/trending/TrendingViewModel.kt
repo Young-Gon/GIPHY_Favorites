@@ -44,7 +44,7 @@ class TrendingViewModel @ViewModelInject constructor(
         })
         .build()
 
-    fun loadDataFromNetwork(limit: Int = 40, offset: Int = 0, option: (() -> Unit)? = null) {
+    fun loadDataFromNetwork(limit: Int = 20, offset: Int = 0, option: (() -> Unit)? = null) {
         Timber.d("offset=${offset}")
         viewModelScope.launch {
             try {

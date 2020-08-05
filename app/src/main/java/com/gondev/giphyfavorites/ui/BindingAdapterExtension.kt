@@ -65,7 +65,7 @@ fun View.showHide(show: Boolean) {
 
 @BindingAdapter("onPageScrollStateChanged")
 fun ViewPager2.setOnPageScrolledListener(onPageScrollStateChangedListener: OnPageScrolledListener) {
-    val onPageChangeListener= object : ViewPager2.OnPageChangeCallback(){
+    val onPageChangeListener = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             onPageScrollStateChangedListener.onPageSelected(position)
@@ -92,7 +92,7 @@ fun ImageView.bindImage(src: String?, srcSize: Int, thumbnail: String?, thumbnai
         return
     }
 
-    val roundedCorners: Transformation<Bitmap> = RoundedCorners(4)
+    val roundedCorners: Transformation<Bitmap> = RoundedCorners(8)
 
     var glide = Glide.with(context).load(src)
 
@@ -137,7 +137,11 @@ fun getGlideRequestOption(imageName: String, size: Int) =
  * https://stackoverflow.com/questions/53664645/how-to-apply-animation-on-cached-image-in-glide
  */
 class DrawableAlwaysCrossFadeFactory : TransitionFactory<Drawable> {
-    private val resourceTransition: DrawableCrossFadeTransition = DrawableCrossFadeTransition(300, true) //customize to your own needs or apply a builder pattern
+    private val resourceTransition: DrawableCrossFadeTransition = DrawableCrossFadeTransition(
+        300,
+        true
+    ) //customize to your own needs or apply a builder pattern
+
     override fun build(dataSource: DataSource?, isFirstResource: Boolean): Transition<Drawable> {
         return resourceTransition
     }
@@ -168,12 +172,6 @@ fun RecyclerView.setItemMargin(@DimenRes margin: Int) {
     addItemDecoration(
         MarginItemDecoration(
             resources.getDimension(margin).toInt(),
-            RecyclerView.HORIZONTAL
-        )
-    )
-    addItemDecoration(
-        MarginItemDecoration(
-            resources.getDimension(margin).toInt(),
             RecyclerView.VERTICAL
         )
     )
@@ -181,12 +179,6 @@ fun RecyclerView.setItemMargin(@DimenRes margin: Int) {
 
 @BindingAdapter("itemMargin")
 fun RecyclerView.setItemMargin(margin: Float) {
-    addItemDecoration(
-        MarginItemDecoration(
-            context.dpToPx(margin),
-            RecyclerView.HORIZONTAL
-        )
-    )
     addItemDecoration(
         MarginItemDecoration(
             context.dpToPx(margin),

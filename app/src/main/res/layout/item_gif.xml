@@ -17,20 +17,20 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:background="#F2F2F2"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@{gifData.fixedWidthDownsampled}"
-            app:src_size="@{gifData.fixedWidthDownsampledSize}"
+            app:src="@{gifData.originalImage}"
+            app:src_size="@{gifData.originalImageSize}"
             app:thumbnail="@{gifData.thumbnail}"
             app:thumbnail_size="@{gifData.thumbnailSize}"
             tools:src="@drawable/empty_image" />
@@ -50,7 +50,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/item_margin"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:ellipsize="end"
@@ -72,7 +72,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView"/>
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <ImageButton
             android:id="@+id/ibFavorite"

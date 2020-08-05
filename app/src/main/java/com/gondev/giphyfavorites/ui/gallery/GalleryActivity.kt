@@ -19,7 +19,6 @@ import com.gondev.giphyfavorites.databinding.GalleryItemBinding
 import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
 import com.gondev.giphyfavorites.ui.GiphyAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 fun Context.startGalleryActivity(index: Int, isFavorite: Boolean) {
     startActivity(Intent(this, GalleryActivity::class.java).apply {
@@ -62,11 +61,10 @@ class GalleryActivity : AppCompatActivity() {
                 param = *arrayOf(BR.vm to viewModel)
             )
 
-        Timber.d("index=${intent.getIntExtra("index", 0)}")
         Handler().postDelayed({
             binding.viewPager.visibility = View.VISIBLE
             binding.viewPager.setCurrentItem(intent.getIntExtra("index", 0), false)
-        }, 100)
+        }, 150)
 
     }
 
