@@ -1,4 +1,4 @@
-# ![icon](./image/Giphy.PNG) GIPHY Favorites
+# ![icon](./images/Giphy.PNG) GIPHY Favorites
 [GIPHY API](https://developers.giphy.com/docs/api/) 를 사용하여 Trending GIF목록이 나오는 
 Trending GIFs 화면과 이 GIF에 **"좋아요"** 표시를 할수 있는 Favorites 화면을 제작
 
