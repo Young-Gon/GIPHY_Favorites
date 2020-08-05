@@ -29,7 +29,7 @@ Favorite 된 아이템들의 목록
 1. GIF를 네트워크로 부터 불러오면서도 화면 사용성을 해치지 않고 효율적으로 화면을 구성하는지가 관건 
 2. Min API 19를 위해 SDK API 레벨에 신경 쓸것
 
-### 앱 구조
+## 앱 구조
 전체적으로 MVVM 페턴을 따르고 있습니다  
 네트워크로 부터 들어온 GIF 리스트는 DB에 저장이 되고 이 정보는 ViewModel로 들어 옵니다
 이렇게 들어온 데이터는
@@ -39,7 +39,7 @@ Favorite 된 아이템들의 목록
 이때 사용하는 데이터베이스 모듈과 네트워크 모듈은 [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 DI 라이브러리로 관리 합니다
 
-#### 화면  페키지 구성
+### 화면  페키지 구성
 [MainActivity](./app/src/main/java/com/gondev/giphyfavorites/ui/main/MainActivity.kt), [GalleyActivity](./app/src/main/java/com/gondev/giphyfavorites/ui/gallery/GalleryActivity.kt)
 두개의 화면으로 구성 되어 있습니다
 1. [GalleyActivity](./app/src/main/java/com/gondev/giphyfavorites/ui/gallery/GalleryActivity.kt): 좌우로 한장씩 넘겨 가며 GIF의 오리지널 이미지를 볼 수 있는 화면입니다.   
@@ -48,7 +48,7 @@ DI 라이브러리로 관리 합니다
    1. [TrendingFragment](./app/src/main/java/com/gondev/giphyfavorites/ui/main/fragments/trending/TrendingFragment.kt): Trending GIFs 목록을 표시 합니다
    2. [FavoriteFragment](./app/src/main/java/com/gondev/giphyfavorites/ui/main/fragments/trending/TrendingFragment.kt): "좋아요" 표시한 GIFs 목록을 표시 합니다
    
-#### 모델  페키지 구성 
+### 모델  페키지 구성 
 1. [network](./app/src/main/java/com/gondev/giphyfavorites/model/network)
    1. [api](./app/src/main/java/com/gondev/giphyfavorites/model/network/api): GIPHI API와 통신하는 서비스를 제공합니다 
    2. [response](./app/src/main/java/com/gondev/giphyfavorites/model/network/response): 서버로 부터 받은 데이터를 담습니다 
@@ -57,7 +57,7 @@ DI 라이브러리로 관리 합니다
    2. [dao](./app/src/main/java/com/gondev/giphyfavorites/model/database/dao): entity를 쿼리 합니다 
 3. di.module: 위 두개의 페키지를 모듈화 하여 ViewModel에 전달 하기 위한 di 페키지 
 
-### 오픈소스 라이브러리
+## 오픈소스 라이브러리
 1. [Android Architecture components](https://developer.android.com/jetpack/androidx/releases/lifecycle)  
 안드로이드 ViewModel을 지원하고 라이프사이클에 맞게 제어 하는 역할을 합니다
 2. [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android)  
