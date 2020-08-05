@@ -13,6 +13,7 @@ import com.gondev.giphyfavorites.model.network.State
 import com.gondev.giphyfavorites.model.network.api.GiphyAPI
 import com.gondev.giphyfavorites.model.network.response.Pagination
 import com.gondev.giphyfavorites.ui.main.fragments.GiphyViewModel
+import com.gondev.giphyfavorites.ui.main.getDistinct
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -42,7 +43,7 @@ class TrendingViewModel @ViewModelInject constructor(
                 loadDataFromNetwork(offset = pagination.offset + pagination.count)
             }
         })
-        .build()
+        .build().getDistinct()
 
     fun loadDataFromNetwork(limit: Int = 20, offset: Int = 0, option: (() -> Unit)? = null) {
         Timber.d("offset=${offset}")
@@ -66,8 +67,17 @@ class TrendingViewModel @ViewModelInject constructor(
 
     fun onRefreshList() {
         Timber.d("load from onRefreshList")
+        val offset = pagination.offset
         loadDataFromNetwork {
             refresh.value = false
+            pagination.offset = offset
+        }
+    }
+
+    fun onDataSourceInitializingFinished() {
+        val offset = pagination.offset
+        loadDataFromNetwork {
+            pagination.offset = offset
         }
     }
 }

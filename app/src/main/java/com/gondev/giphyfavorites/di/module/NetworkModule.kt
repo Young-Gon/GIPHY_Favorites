@@ -21,6 +21,10 @@ private const val CONNECT_TIMEOUT = 15L
 private const val WRITE_TIMEOUT = 15L
 private const val READ_TIMEOUT = 15L
 
+/**
+ * Hilt DI 라이브러리에서 사용하는 데이터베이스 모듈입니다
+ * ViewModel에 네트워크 콜 서비스를 제공합니다
+ */
 @Module
 @InstallIn(ApplicationComponent::class)
 object NetworkModule{

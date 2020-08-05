@@ -16,6 +16,8 @@
 
 package com.gondev.giphyfavorites.ui.main
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 
 /**
@@ -56,4 +58,31 @@ class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Obser
             onEventUnhandledContent(value)
         }
     }
+}
+
+/**
+ * 오탐(False Positive) 오류 방지
+ * 디비 테이블의 값이 변경되어 라이브데이터에 변경 이벤트가 도착 했을 경우
+ * 실제 기존값과 비교하여 변경이 있을 경우에만 변경 이벤트를 발생시킵니다
+ * https://medium.com/harrythegreat/%EB%B2%88%EC%97%AD-%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-room-7%EA%B0%80%EC%A7%80-%EC%9C%A0%EC%9A%A9%ED%95%9C-%ED%8C%81-18252a941e27
+ * 7번
+ */
+fun <T> LiveData<T>.getDistinct(): LiveData<T> {
+    val distinctLiveData = MediatorLiveData<T>()
+    distinctLiveData.addSource(this, object : Observer<T> {
+        private var initialized = false
+        private var lastObj: T? = null
+        override fun onChanged(obj: T?) {
+            if (!initialized) {
+                initialized = true
+                lastObj = obj
+                distinctLiveData.postValue(lastObj)
+            } else if ((obj == null && lastObj != null)
+                || obj != lastObj) {
+                lastObj = obj
+                distinctLiveData.postValue(lastObj)
+            }
+        }
+    })
+    return distinctLiveData
 }
