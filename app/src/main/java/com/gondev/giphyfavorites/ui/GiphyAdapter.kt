@@ -5,9 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -100,24 +98,12 @@ class GiphyAdapter<T, V : ViewDataBinding>(
 
     override fun onBindViewHolder(holder: RecyclerViewHolder<T, V>, position: Int) =
         holder.onBindViewHolder(getItem(position))
-
-    override fun onViewAttachedToWindow(holder: RecyclerViewHolder<T, V>) {
-        super.onViewAttachedToWindow(holder)
-        holder.onAttached()
-    }
-
-    override fun onViewDetachedFromWindow(holder: RecyclerViewHolder<T, V>) {
-        super.onViewDetachedFromWindow(holder)
-        holder.onDetached()
-    }
 }
 
 class RecyclerViewHolder<in T, out V : ViewDataBinding>(
     val binding: V,
     private val bindingVariableId: Int? = null
-) : RecyclerView.ViewHolder(binding.root), LifecycleOwner {
-
-    private val lifecycleRegistry = LifecycleRegistry(this)
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBindViewHolder(item: T?) {
         try {
@@ -129,14 +115,4 @@ class RecyclerViewHolder<in T, out V : ViewDataBinding>(
             e.printStackTrace()
         }
     }
-
-    fun onAttached() {
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-    }
-
-    fun onDetached() {
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-    }
-
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 }

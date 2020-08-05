@@ -29,8 +29,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@{gifData.originalImage}"
-            app:src_size="@{gifData.originalImageSize}"
+            app:src="@{gifData.fixedWidth}"
+            app:src_size="@{gifData.fixedWidthSize}"
             app:thumbnail="@{gifData.thumbnail}"
             app:thumbnail_size="@{gifData.thumbnailSize}"
             tools:src="@drawable/empty_image" />

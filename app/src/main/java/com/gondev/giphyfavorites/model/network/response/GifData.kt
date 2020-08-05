@@ -28,8 +28,8 @@ data class GifData(
             trendingDatetime = trending_datetime,
             thumbnail = images.fixed_width_small_still.url,
             thumbnailSize = images.fixed_width_small_still.size,
-            fixedWidthDownsampled = images.fixed_width_downsampled.webp?:images.fixed_width_downsampled.url,
-            fixedWidthDownsampledSize = if(images.fixed_width_downsampled.webp!=null) images.fixed_width_downsampled.webp_size else images.fixed_width_downsampled.size,
+            fixedWidth = images.fixed_width.webp?:images.fixed_width.url,
+            fixedWidthSize = if(images.fixed_width.webp!=null) images.fixed_width.webp_size else images.fixed_width.size,
             originalImage = images.original.webp?:images.original.url,
             originalImageSize = if(images.original.webp!=null) images.original.webp_size else images.original.size,
             originalImageStill = images.original_still.url,
@@ -38,7 +38,7 @@ data class GifData(
 }
 
 data class Images(
-    val fixed_width_downsampled: FixedWidthDownsampled,
+    val fixed_width: FixedWidthDownsampled,
     val fixed_width_small_still: FixedWidthSmallStill,
     val original: FixedWidthDownsampled,
     val original_still: FixedWidthSmallStill

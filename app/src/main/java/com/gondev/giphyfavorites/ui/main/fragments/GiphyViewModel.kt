@@ -29,7 +29,7 @@ abstract class GiphyViewModel(
      * 이러한 경우 처리방법은 3가지로 나눌수 있다
      *
      * 1. ViewModel에서 직접 Context를 들고 있다가 처리해주는 방법
-     *    ViewModel에서 Context를 들고 있으므로 의존관걔가 생긴다
+     *    ViewModel에서 Context를 들고 있으므로 의존관계가 생긴다
      *    좋은 방법이 아니다
      *
      * 2. Context가 필요한 시점에 주입 받는다

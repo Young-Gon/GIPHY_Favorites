@@ -31,14 +31,14 @@ class TrendingViewModel @ViewModelInject constructor(
         .setBoundaryCallback(object : PagedList.BoundaryCallback<GifDataEntity>() {
             override fun onZeroItemsLoaded() {
                 super.onZeroItemsLoaded()
-                Timber.d("load form onZero")
+                Timber.d("load from onZero")
                 loadDataFromNetwork()
             }
 
             override fun onItemAtEndLoaded(itemAtEnd: GifDataEntity) {
                 super.onItemAtEndLoaded(itemAtEnd)
 
-                Timber.d("load form onItemAtEndLoaded")
+                Timber.d("load from onItemAtEndLoaded")
                 loadDataFromNetwork(offset = pagination.offset + pagination.count)
             }
         })
@@ -65,6 +65,7 @@ class TrendingViewModel @ViewModelInject constructor(
     val refresh = MutableLiveData<Boolean>(false)
 
     fun onRefreshList() {
+        Timber.d("load from onRefreshList")
         loadDataFromNetwork {
             refresh.value = false
         }
