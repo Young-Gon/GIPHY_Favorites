@@ -1,8 +1,7 @@
 package com.gondev.giphyfavorites
 
+import org.junit.Assert
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +11,14 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+
+        val gifList=listOf(1, 2, 3, 4, 5, 6)
+        val netResult=listOf(0, 1, 2, 3)
+
+        val result = netResult.filter { result ->
+            gifList.none { it == result }
+        }
+
+        Assert.assertArrayEquals(result.toIntArray(), listOf(0).toIntArray())
     }
 }

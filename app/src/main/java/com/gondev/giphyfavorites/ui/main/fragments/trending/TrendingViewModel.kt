@@ -17,6 +17,7 @@ import com.gondev.giphyfavorites.ui.main.getDistinct
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+const val PAGE_SIZE = 20
 
 class TrendingViewModel @ViewModelInject constructor(
     dao: GifDataDao,
@@ -25,13 +26,15 @@ class TrendingViewModel @ViewModelInject constructor(
 ) : GiphyViewModel(dao) {
 
     private var pagination = Pagination(0, 0, 0)
+    private var isZeroItemLoaded = false
 
     val state: MutableLiveData<State> = MutableLiveData(State.loading())
 
-    override val gifList = LivePagedListBuilder(dao.findGif(), 20)
+    override val gifList = LivePagedListBuilder(dao.findGif(), PAGE_SIZE)
         .setBoundaryCallback(object : PagedList.BoundaryCallback<GifDataEntity>() {
             override fun onZeroItemsLoaded() {
                 super.onZeroItemsLoaded()
+                isZeroItemLoaded = true
                 Timber.d("load from onZero")
                 loadDataFromNetwork()
             }
@@ -45,9 +48,10 @@ class TrendingViewModel @ViewModelInject constructor(
         })
         .build().getDistinct()
 
-    fun loadDataFromNetwork(limit: Int = 20, offset: Int = 0, option: (() -> Unit)? = null) {
+    fun loadDataFromNetwork(limit: Int = PAGE_SIZE, offset: Int = 0, option: (() -> Unit)? = null) {
         Timber.d("offset=${offset}")
         viewModelScope.launch {
+            state.value = State.loading()
             try {
                 val netResult = giphyAPI.getGifList(limit = limit, offset = offset)
 
@@ -67,16 +71,51 @@ class TrendingViewModel @ViewModelInject constructor(
 
     fun onRefreshList() {
         Timber.d("load from onRefreshList")
-        val offset = pagination.offset
-        loadDataFromNetwork {
+        loadPrevDataFromNetwork {
             refresh.value = false
-            pagination.offset=offset
         }
     }
 
     fun onDataSourceInitializingFinished(size: Int) {
-        loadDataFromNetwork {
-            pagination.offset=size
+        if (!isZeroItemLoaded) {
+            Timber.d("load header after finished loading DataSource (list.size=${size})")
+            pagination.offset = size
+            loadPrevDataFromNetwork()
         }
     }
+
+    private fun loadPrevDataFromNetwork(limit: Int = PAGE_SIZE, option: (() -> Unit)? = null) =
+        viewModelScope.launch {
+            state.value = State.loading()
+            val trendingDatetime = dao.findFirstGifDate() ?: return@launch
+            try {
+                var offset = -PAGE_SIZE
+                do {
+                    val netResult =
+                        giphyAPI.getGifList(limit = PAGE_SIZE, offset = PAGE_SIZE + offset)
+                    val firstIndex =
+                        netResult.data.indexOfFirst { it.trending_datetime.time <= trendingDatetime.time }
+                    if (firstIndex == 0) {
+                        Timber.d("NOTHING to add GIFs at header")
+                        return@launch
+                    }
+
+                    val newList = if (firstIndex > -1)
+                        netResult.data.subList(0, firstIndex)
+                    else
+                        netResult.data
+                    Timber.d("added ${newList.size} GIFs at header")
+                    dao.insert(newList.map { it.toEntity() })
+                    pagination.offset += newList.size
+                    offset += newList.size
+                } while (firstIndex == -1)
+
+                state.value = State.success()
+            } catch (e: Exception) {
+                Timber.e(e)
+                state.value = State.error(e)
+            } finally {
+                option?.invoke()
+            }
+        }
 }

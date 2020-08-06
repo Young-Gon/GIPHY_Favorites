@@ -3,6 +3,7 @@ package com.gondev.giphyfavorites.model.database.dao
 import androidx.paging.DataSource
 import androidx.room.*
 import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
+import java.util.*
 
 /**
  * GIPHY로 부터 받은 데이터를 읽고 쓰는 클레스입니다
@@ -16,6 +17,9 @@ interface GifDataDao {
      */
     @Query("SELECT * FROM gif_data ORDER BY trendingDatetime DESC")
     fun findGif(): DataSource.Factory<Int, GifDataEntity>
+
+    @Query("SELECT trendingDatetime FROM gif_data ORDER BY trendingDatetime DESC")
+    suspend fun findFirstGifDate(): Date?
 
     /**
      * Gif 데이터 중 "좋아요" 표시를 한 데이터만 최신순으로 찾습니다
