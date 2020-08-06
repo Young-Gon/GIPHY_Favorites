@@ -11,6 +11,9 @@ import com.gondev.giphyfavorites.ui.main.fragments.trending.TrendingFragment
 const val SECTION_TRENDING = 0
 const val SECTION_FAVORITES = 1
 
+/**
+ * [MainActivity]에서 사용하는 [Fragment][androidx.fragment.app.Fragment]를 관리 합니다
+ */
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 

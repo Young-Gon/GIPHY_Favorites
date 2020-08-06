@@ -10,10 +10,22 @@ import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
 import com.gondev.giphyfavorites.ui.main.Event
 import kotlinx.coroutines.launch
 
+/**
+ * [TrendingFragment][com.gondev.giphyfavorites.ui.main.fragments.trending.TrendingViewModel]와
+ * [FavoriteFragment][com.gondev.giphyfavorites.ui.main.fragments.favorites.FavoriteViewModel]에서
+ * 공통으로 사용하는 코드들을 묶어 놓은 클래스 입니다
+ *
+ */
 abstract class GiphyViewModel(
     val dao: GifDataDao
 ) : ViewModel() {
 
+    /**
+     * [TrendingFragment][com.gondev.giphyfavorites.ui.main.fragments.trending.TrendingViewModel]와
+     * [FavoriteFragment][com.gondev.giphyfavorites.ui.main.fragments.favorites.FavoriteViewModel]의
+     * gifList는 데이터 셋이 다르지만, 구조는 똑같습니다
+     * 각자의 클레스에서 구현 할 수 있도록 abstract으로 남겨 놓습니다
+     */
     abstract val gifList: LiveData<PagedList<GifDataEntity>>
 
     /**
@@ -54,8 +66,17 @@ abstract class GiphyViewModel(
             } ?: 0)
     }
 
+    /**
+     * "좋아요"를 클릭하면 호출됩니다
+     * @param clickedItem "좋아요"를 클릭한 아이템
+     */
     fun onClickFavorite(clickedItem: GifDataEntity) {
         viewModelScope.launch {
+            // 디비 Entity를 직접 수정하시 마세요
+            // 직접 수정하게 되면 레퍼런스 참조에 의해
+            // 리스트의 값도 같이 바뀌게 되어 DiffUtil이 변경사항을 확인 할 수 없게 됩니다
+            // Entity의 필드는 최대한 val의 형태로 선언 해야 합니다
+            // https://stackoverflow.com/questions/54493764/pagedlistadapter-does-not-update-list-if-just-the-content-of-an-item-changes
             dao.update(clickedItem.copy(favorite = !clickedItem.favorite))
         }
     }

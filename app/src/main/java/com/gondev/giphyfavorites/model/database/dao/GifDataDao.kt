@@ -6,7 +6,7 @@ import com.gondev.giphyfavorites.model.database.entity.GifDataEntity
 import java.util.*
 
 /**
- * GIPHY로 부터 받은 데이터를 읽고 쓰는 클레스입니다
+ * GIPHY로 부터 받은 데이터를 디비에 읽고 쓰는 클레스입니다
  */
 @Dao
 interface GifDataDao {

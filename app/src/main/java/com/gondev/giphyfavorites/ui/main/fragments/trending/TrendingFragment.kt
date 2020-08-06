@@ -21,6 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 
+/**
+ * GIPHY Trending 목록을 구성하는 [Fragment]입니다
+ */
 @AndroidEntryPoint
 class TrendingFragment : Fragment() {
     private lateinit var binding: TrendingFragmentBinding

@@ -18,6 +18,9 @@ import com.gondev.giphyfavorites.ui.main.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 
 
+/**
+ * "좋아요" 목록을 구성하는 [Fragment]입니다
+ */
 @AndroidEntryPoint
 class FavoriteFragment : Fragment() {
 
