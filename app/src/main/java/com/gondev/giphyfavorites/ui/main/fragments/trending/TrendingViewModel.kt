@@ -87,8 +87,7 @@ class TrendingViewModel @ViewModelInject constructor(
 
                 dao.insert(netResult.data.map { it.toEntity() })
                 state.value = State.success()
-                //pagination = netResult.pagination
-                pagination.offset+=netResult.pagination.count
+                pagination = netResult.pagination
                 option?.invoke()
                 Timber.d(pagination.toString())
             } catch (e: Exception) {
